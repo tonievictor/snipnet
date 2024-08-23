@@ -7,7 +7,7 @@ export default component$(() => {
 	return (
 		<main class={styles.main}>
 			<div class={styles.form__box}>
-				<h1>Sign in</h1>
+				<h1 class={styles.form__header}>Sign in</h1>
 				<Form id="signinform" class={styles.form}>
 					<div class={styles.input__box}>
 						<label for="username">Username</label>
@@ -26,7 +26,7 @@ export default component$(() => {
 
 
 export const head: DocumentHead = {
-  title: "Sign in",
+  title: "Snipnet | Sign in",
   meta: [
     {
       name: "Save and interact with code snipnets from the community",

@@ -20,6 +20,10 @@
 	gap: 0.625rem;
 }
 
+.form__header {
+	font-size: 1.8rem;
+}
+
 .input__box {
 	display: flex;
 	flex-direction: column;
@@ -65,7 +69,11 @@
 }
 
 @media screen and (max-width: 480px) {
+
+.form__header {
+	font-size: 1.5rem;
+}
 	.form__box {
-		width: 80%;
+		width: 90%;
 	}
 }

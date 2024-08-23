@@ -1,10 +1,6 @@
 :root {
-	/* Layout */
 	--glob-padding-x: 10rem;
 	--large-pading-y: 3rem;
-	/* Font Sizes */
-	/* Font Weight */
-	/* Color */
 	--bg-dark: #1a1a1a;
 	--light-blue: #306BAC;
 }
@@ -23,7 +19,6 @@ body {
 	color: rgb(245, 245, 244);
 	font-family: "Ubuntu", sans-serif;
 	overflow-x: hidden;
-	/* padding: 0 var(--glob-padding-x); */
 }
 
 a {

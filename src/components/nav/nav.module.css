@@ -3,9 +3,7 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 1rem 5rem;
-	border-bottom: 1px solid black;
-	top: 0;
-	position: sticky;
+	/* border-bottom: 1px solid black; */
 	background-color: var(--bg-dark);
 	z-index: 2;
 }

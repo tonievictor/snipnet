@@ -1,24 +1,46 @@
 import { component$ } from '@builder.io/qwik'
+import { SnippetWithUser } from '~/lib/types';
 import { Form } from "@builder.io/qwik-city"
 import styles from "./create.module.css"
 import { routeAction$ } from '@builder.io/qwik-city';
 import { title } from 'process';
+import { APIResponse } from '~/lib/types';
 
-export const useCreateSnippet = routeAction$(async (data, event) => {
-	const url = "http://localhost:8080/snippets"
-	data.is_public = (data.is_public == "on") ? "true" : "false";
+export const useCreateSnippet = routeAction$(async (input, event) => {
+	const url = "http://localhost:8080/snippets";
+	input.is_public = (input.is_public === "on") ? "true" : "false";
+
 	const res = await fetch(url, {
 		method: "POST",
-		body: JSON.stringify(data),
+		body: JSON.stringify(input),
 		headers: {
 			"Content-Type": "application/json",
-			// hard coded here because I'm yet to implement auth on the frontend
-			// Hopefully I never push this
-			"Authorization": "Bearer 489387a7-c3d6-4bc2-b8e2-bba9f4f6e157"
+			// dummy token here because I'm yet to implement auth.
+			"Authorization": "Bearer d1b97c79-0827-4f91-9ef8-bf2edda8e7c8"
 		}
-	})
-	console.log(res)
-})
+	});
+
+	if (!res.ok) {
+		const errorDetails = {
+			errorMessage: "An error occurred while creating the snippet",
+			status: res.status,
+			statusText: res.statusText
+		};
+		return event.fail(res.status, errorDetails);
+	}
+
+	const body = await res.json().catch(() => ({
+		errorMessage: "Failed to parse server response as JSON"
+	}));
+
+	if (!body.status) {
+		return event.fail(500, {
+			errorMessage: "An error occurred while creating the snippet",
+			details: body
+		});
+	}
+	event.redirect(301, `/snippets`);
+});
 
 export default component$(() => {
 	const createSnippet = useCreateSnippet();
@@ -61,7 +83,7 @@ export default component$(() => {
 					</div>
 					<div class={styles.input_box}>
 						<label>Description</label>
-						<textarea rows={12} placeholder='Optionally enter a description' name="description" />
+						<textarea rows={12} placeholder='Enter a description' name="description" required />
 					</div>
 					<button class={styles.create_btn}>Create</button>
 				</div>

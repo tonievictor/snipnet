@@ -40,6 +40,9 @@ export const useCreateSnippet = routeAction$(async (input, event) => {
 		});
 	}
 	event.redirect(301, `/snippets`);
+	return {
+		"Hello": ""
+	}
 });
 
 export default component$(() => {

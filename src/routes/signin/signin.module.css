@@ -7,6 +7,17 @@
 	justify-content: center;
 }
 
+.guest__btn {
+	width: max-content;
+	text-decoration: underline;
+	background-color: transparent;
+	color: white;
+	opacity: 0.8;
+	border: none;
+	cursor: pointer;
+
+}
+
 .form__box {
 	display: flex;
 	flex-direction: column;
@@ -21,6 +32,7 @@
 }
 
 .form__header {
+	display: flex;
 	font-size: 1.8rem;
 }
 

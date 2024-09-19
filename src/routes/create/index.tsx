@@ -3,7 +3,6 @@ import { SnippetWithUser } from '~/lib/types';
 import { Form } from "@builder.io/qwik-city"
 import styles from "./create.module.css"
 import { routeAction$ } from '@builder.io/qwik-city';
-import { title } from 'process';
 import { APIResponse } from '~/lib/types';
 
 export const useCreateSnippet = routeAction$(async (input, event) => {
@@ -16,7 +15,7 @@ export const useCreateSnippet = routeAction$(async (input, event) => {
 		headers: {
 			"Content-Type": "application/json",
 			// dummy token here because I'm yet to implement auth.
-			"Authorization": "Bearer d1b97c79-0827-4f91-9ef8-bf2edda8e7c8"
+			"Authorization": "Bearer 0cd6b6a2-bb9e-496f-a6c1-031acdf5e288"
 		}
 	});
 
@@ -40,9 +39,6 @@ export const useCreateSnippet = routeAction$(async (input, event) => {
 		});
 	}
 	event.redirect(301, `/snippets`);
-	return {
-		"Hello": ""
-	}
 });
 
 export default component$(() => {
@@ -88,6 +84,7 @@ export default component$(() => {
 						<label>Description</label>
 						<textarea rows={12} placeholder='Enter a description' name="description" required />
 					</div>
+					<span style={{ "font-size": "0.8rem", "color": "red" }}>{createSnippet.value?.errorMessage}</span>
 					<button class={styles.create_btn}>Create</button>
 				</div>
 			</Form>

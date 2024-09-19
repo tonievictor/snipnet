@@ -73,15 +73,18 @@
 }
 
 .metadata h3 {
-	font-size: 2.3rem;
+	font-size: 1.75rem;
+	opacity: 0.85;
 }
 
 .metadata p {
 	line-height: 120%;
+	opacity: 0.8;
 }
 
 .metadata span {
 	margin-bottom: 1.2rem;
+	color: gray;
 	opacity: 0.8;
 }
 
@@ -93,10 +96,6 @@
 	.pre,
 	.metadata {
 		width: 100%;
-	}
-
-	.pre {
-		height: auto;
 	}
 }
 

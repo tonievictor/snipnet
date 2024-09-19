@@ -29,3 +29,11 @@ a {
 ul {
 	list-style: none;
 }
+
+button {
+	cursor: pointer;
+}
+button:focus {
+	outline: none;
+	cursor: pointer;
+}

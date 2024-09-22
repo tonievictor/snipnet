@@ -1,4 +1,4 @@
-import { component$, useSignal } from '@builder.io/qwik';
+import { component$, useSignal, Signal, useComputed$, $ } from '@builder.io/qwik';
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from '@builder.io/qwik-city';
 import type { SnippetWithUser, APIResponse } from '~/lib/types';
@@ -7,12 +7,7 @@ import NotFound from '~/components/notfound/NotFound';
 import { formatDate } from '~/lib/utils';
 
 export const useGetSnippets = routeLoader$(async (event) => {
-	const res = await fetch(`http://localhost:8080/snippets/${event.params.id}`)
-	if (!res) {
-		return event.fail(504, {
-			errorMessage: "Internal server error"
-		})
-	}
+	const res = await fetch(`${import.meta.env.PUBLIC_API_URL}/snippets/${event.params.id}`)
 	const data = await res.json() as APIResponse
 	if (!data.status) {
 		return event.fail(404, {
@@ -24,8 +19,8 @@ export const useGetSnippets = routeLoader$(async (event) => {
 
 export default component$(() => {
 	const response = useGetSnippets()
-	const copyStatus = useSignal(null);
 	const snippet = response.value.snip;
+	const codeRef = useSignal<Element>();
 	return (
 		<main class={styles.main}>
 			{response.value.errorMessage && <NotFound text="404 not found" />}
@@ -39,15 +34,45 @@ export default component$(() => {
 				<pre class={styles.pre}>
 					<span class={styles.top}>
 						<span>{snippet?.language}</span>
-						<button>Copy</button>
+						<CopyButton parent={codeRef} />
 					</span>
-					<code class={`language-${snippet?.language} ${styles.code}`}>
+					<code class={`language-${snippet?.language} ${styles.code}`} ref={codeRef}>
 						{snippet?.code}
 					</code>
 				</pre>
 			</div>
 		</main>
 	)
+});
+
+interface CopyBtnProps {
+	parent: Signal<Element>
+}
+
+const CopyButton = component$<CopyBtnProps>(({ parent }) => {
+	const isClickedSig = useSignal(false);
+
+	const copyToClipboard$ = $((_: Event, target: HTMLButtonElement) => {
+
+		if (parent.value && navigator.clipboard) {
+			const content = parent.value.textContent || '';
+			navigator.clipboard.writeText(content);
+			isClickedSig.value = true;
+		}
+
+		setTimeout(() => {
+			isClickedSig.value = false;
+		}, 3000);
+	});
+
+	return (
+		<button
+			onClick$={copyToClipboard$}
+			aria-label={isClickedSig.value ? 'Copied to clipboard' : 'Copy to clipboard'}
+			title={isClickedSig.value ? 'Copied!' : 'Copy to clipboard'}
+		> {isClickedSig.value ? "Copied" : "Copy"}
+		</button>
+	);
 });
 
 export const head: DocumentHead = {

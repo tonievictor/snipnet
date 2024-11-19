@@ -1,12 +1,22 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useContext } from '@builder.io/qwik'
 import { SnippetWithUser } from '~/lib/types';
 import { Form } from "@builder.io/qwik-city"
 import styles from "./create.module.css"
 import { routeAction$ } from '@builder.io/qwik-city';
 import { APIResponse } from '~/lib/types';
+import { AuthUser } from "../../lib/types";
+import type { RequestHandler } from '@builder.io/qwik-city';
+import { AuthContext } from '../layout';
 
-export const useCreateSnippet = routeAction$(async (input, event) => {
-	const url = "http://localhost:8080/snippets";
+export const onRequest: RequestHandler = async ({ redirect, url, cookie }) => {
+	const user = cookie.get('snipnet_auth')?.json();
+	if (!user) {
+		throw redirect(308, new URL('/', url).toString());
+	}
+};
+
+export const useCreateSnippet = routeAction$(async (input, { fail, sharedMap, redirect }) => {
+	const url = `${import.meta.env.PUBLIC_API_URL}/snippets`
 	input.is_public = (input.is_public === "on") ? "true" : "false";
 
 	const res = await fetch(url, {
@@ -14,8 +24,7 @@ export const useCreateSnippet = routeAction$(async (input, event) => {
 		body: JSON.stringify(input),
 		headers: {
 			"Content-Type": "application/json",
-			// dummy token here because I'm yet to implement auth.
-			"Authorization": "Bearer 0cd6b6a2-bb9e-496f-a6c1-031acdf5e288"
+			"Authorization": `Bearer ${input.token}`
 		}
 	});
 
@@ -25,7 +34,7 @@ export const useCreateSnippet = routeAction$(async (input, event) => {
 			status: res.status,
 			statusText: res.statusText
 		};
-		return event.fail(res.status, errorDetails);
+		return fail(res.status, errorDetails);
 	}
 
 	const body = await res.json().catch(() => ({
@@ -33,16 +42,17 @@ export const useCreateSnippet = routeAction$(async (input, event) => {
 	}));
 
 	if (!body.status) {
-		return event.fail(500, {
+		return fail(500, {
 			errorMessage: "An error occurred while creating the snippet",
 			details: body
 		});
 	}
-	event.redirect(301, `/snippets`);
+	redirect(301, `/snippets`);
 });
 
 export default component$(() => {
 	const createSnippet = useCreateSnippet();
+	const user = useContext(AuthContext);
 	return (
 		<main class={styles.main}>
 			<Form class={styles.create_form} action={createSnippet}>
@@ -59,6 +69,7 @@ export default component$(() => {
 							<label>Public</label>
 							<label class={styles.switch}>
 								<input type="checkbox" name="is_public" checked />
+								<input name="token" hidden value={user.auth_code} />
 								<span class={`${styles.slider} ${styles.round}`}></span>
 							</label>
 						</div>

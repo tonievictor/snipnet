@@ -21,6 +21,7 @@ export default component$(() => {
 	const response = useGetSnippets()
 	const snippet = response.value.snip;
 	const codeRef = useSignal<Element>();
+
 	return (
 		<main class={styles.main}>
 			{response.value.errorMessage && <NotFound text="404 not found" />}
@@ -36,9 +37,7 @@ export default component$(() => {
 						<span>{snippet?.language}</span>
 						<CopyButton parent={codeRef} />
 					</span>
-					<code class={`language-${snippet?.language} ${styles.code}`} ref={codeRef}>
-						{snippet?.code}
-					</code>
+					<code class={`language-${snippet?.language} ${styles.code}`} ref={codeRef} dangerouslySetInnerHTML={snippet?.code} />
 				</pre>
 			</div>
 		</main>

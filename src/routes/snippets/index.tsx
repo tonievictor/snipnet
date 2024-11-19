@@ -6,12 +6,11 @@ import { SnippetWithUser, APIResponse } from '~/lib/types';
 import { formatDate, formatStrToUpperCase, firstNChars } from "~/lib/utils"
 import NotFound from "~/components/notfound/NotFound"
 
-// Get all snippets from the backend
 export const useGetSnippets = routeLoader$(async (event) => {
 	const param = event.query.get("param")
-	let url = "http://localhost:8080/snippets"
-	if (param ) {
-		url = `http://localhost:8080/snippets?param=${param}`;
+	let url = `${import.meta.env.PUBLIC_API_URL}/snippets`
+	if (param) {
+		url = `${import.meta.env.PUBLIC_API_URL}/snippets?param=${param}`;
 	}
 	const res = await fetch(url, {
 		headers: { Accept: 'application/json' },
@@ -58,7 +57,7 @@ export default component$(() => {
 								</div>
 								<div class={styles.stars}>
 									<i class="fa-solid fa-star"></i>
-								<span>1</span>
+									<span>1</span>
 								</div>
 							</div>
 						</div>

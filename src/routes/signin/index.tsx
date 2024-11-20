@@ -1,10 +1,10 @@
 import type { RequestHandler } from '@builder.io/qwik-city';
 import type { AuthResponse } from "../../lib/types"
 
-export const onGet: RequestHandler = async ({ query, redirect, cookie, url, send }) => {
+export const onGet: RequestHandler = async ({ query, redirect, cookie, url }) => {
 	const code = query.get("code")
 	if (!code) {
-		throw redirect(308, new URL('/', url).toString());
+		throw redirect(308, new URL('/snippets', url).toString());
 	}
 
 	try {
@@ -15,14 +15,13 @@ export const onGet: RequestHandler = async ({ query, redirect, cookie, url, send
 		});
 
 		if (!res.ok) {
-			const errorMessage = `Authentication failed with status: ${res.status}`;
-			throw redirect(308, new URL('/', url).toString());
+			throw redirect(308, new URL('/snippets', url).toString());
 		}
 
 		const { data } = await res.json() as AuthResponse;
 		cookie.set("snipnet_auth", data, {
 			httpOnly: true,
-			maxAge: [30, 'days'],
+			maxAge: [7, 'days'],
 			secure: true,
 			sameSite: 'lax'
 		});
@@ -31,6 +30,6 @@ export const onGet: RequestHandler = async ({ query, redirect, cookie, url, send
 		console.log(e)
 	}
 
-	throw redirect(308, new URL('/', url).toString());
+	throw redirect(308, new URL('/snippets', url).toString());
 }
 

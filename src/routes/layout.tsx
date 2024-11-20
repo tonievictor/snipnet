@@ -1,5 +1,4 @@
 import {
-	useContext,
 	createContextId,
 	useStore,
 	component$,
@@ -9,7 +8,7 @@ import {
 import type { RequestHandler } from "@builder.io/qwik-city";
 import { routeLoader$ } from '@builder.io/qwik-city';
 import Nav from "../components/nav/Nav";
-import { AuthUser } from "../lib/types";
+import type { AuthUser } from "../lib/types";
 
 export const onGet: RequestHandler = async ({ cacheControl, sharedMap, cookie }) => {
 	// Control caching for this request for best performance and to reduce hosting costs:
@@ -21,7 +20,7 @@ export const onGet: RequestHandler = async ({ cacheControl, sharedMap, cookie })
 		maxAge: 5,
 	});
 
-	const user = cookie.get("snipnet_auth")?.json() as AuthUser
+	const user: AuthUser | undefined = cookie.get("snipnet_auth")?.json();
 	if (user) {
 		sharedMap.set('user', user)
 	}
@@ -37,7 +36,7 @@ export interface AuthContextType {
 export const AuthContext = createContextId<AuthContextType>("auth.context.id");
 
 export const useUser = routeLoader$(({ sharedMap }) => {
-	const user =  sharedMap.get('user') as AuthUser;
+	const user = sharedMap.get('user') as AuthUser | undefined;
 	return user;
 });
 
@@ -45,9 +44,9 @@ export default component$(() => {
 	const currUser = useUser();
 	const authStore = useStore<AuthContextType>({
 		username: currUser.value?.username || "",
-		avatar: currUser.value?.avatar || " ",
-		auth_code: currUser.value?.auth_token,
-		loggedin: currUser.value ? true : false
+		avatar: currUser.value?.avatar || "",
+		auth_code: currUser.value?.auth_token || "",
+		loggedin: currUser.value?.auth_token ? true : false
 	})
 
 	useContextProvider(AuthContext, authStore)

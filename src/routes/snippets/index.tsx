@@ -2,7 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import styles from "./snippets.module.css";
 import { routeLoader$ } from '@builder.io/qwik-city';
-import { SnippetWithUser, APIResponse } from '~/lib/types';
+import type { SnippetWithUser, APIResponse } from '~/lib/types';
 import { formatDate, formatStrToUpperCase, firstNChars } from "~/lib/utils"
 import NotFound from "~/components/notfound/NotFound"
 
@@ -15,7 +15,8 @@ export const useGetSnippets = routeLoader$(async (event) => {
 	const res = await fetch(url, {
 		headers: { Accept: 'application/json' },
 	});
-	if (!res) {
+
+	if (!res.ok) {
 		return event.fail(504, {
 			errorMessage: "Internal server error"
 		})

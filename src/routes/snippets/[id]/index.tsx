@@ -1,4 +1,4 @@
-import { component$, useSignal, Signal, useComputed$, $ } from '@builder.io/qwik';
+import { component$, useSignal, type Signal, $ } from '@builder.io/qwik';
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from '@builder.io/qwik-city';
 import type { SnippetWithUser, APIResponse } from '~/lib/types';
@@ -20,7 +20,7 @@ export const useGetSnippets = routeLoader$(async (event) => {
 export default component$(() => {
 	const response = useGetSnippets()
 	const snippet = response.value.snip;
-	const codeRef = useSignal<Element>();
+	const codeRef = useSignal<Element | undefined>(undefined);
 
 	return (
 		<main class={styles.main}>
@@ -32,27 +32,29 @@ export default component$(() => {
 					<p>{snippet?.description}</p>
 					<div></div>
 				</div>
-				<pre class={styles.pre}>
+				<div class={styles.pre}>
 					<span class={styles.top}>
 						<span>{snippet?.language}</span>
 						<CopyButton parent={codeRef} />
 					</span>
-					<code class={`language-${snippet?.language} ${styles.code}`} ref={codeRef} dangerouslySetInnerHTML={snippet?.code} />
-				</pre>
+					<script>hljs.highlightAll();</script>
+					<pre>
+						<code class={`language-${snippet?.language} ${styles.code}`} ref={codeRef} dangerouslySetInnerHTML={snippet?.code} />
+					</pre>
+				</div>
 			</div>
 		</main>
 	)
 });
 
 interface CopyBtnProps {
-	parent: Signal<Element>
+	parent: Signal<Element | undefined>
 }
 
 const CopyButton = component$<CopyBtnProps>(({ parent }) => {
 	const isClickedSig = useSignal(false);
 
-	const copyToClipboard$ = $((_: Event, target: HTMLButtonElement) => {
-
+	const copyToClipboard$ = $(() => {
 		if (parent.value && navigator.clipboard) {
 			const content = parent.value.textContent || '';
 			navigator.clipboard.writeText(content);

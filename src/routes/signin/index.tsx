@@ -27,6 +27,7 @@ export const onGet: RequestHandler = async ({ query, redirect, cookie, url }) =>
 		});
 
 	} catch (e) {
+		console.log("Welp")
 		console.log(e)
 	}
 

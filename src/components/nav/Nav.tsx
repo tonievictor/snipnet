@@ -31,7 +31,7 @@ export default component$(() => {
 
 				{auth.loggedin && (
 					<li class={`${styles.nav__img} ${styles.nav__item}`}>
-						 <img width="32" height="32" src={auth.avatar || "../../../public/profile-placeholder.jpg"} />
+						<img width="32" height="32" src={auth.avatar || "../../../public/profile-placeholder.jpg"} />
 					</li>
 				)}
 			</ul>

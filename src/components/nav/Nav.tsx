@@ -1,6 +1,5 @@
 import { useContext, component$ } from "@builder.io/qwik";
 import styles from "./nav.module.css"
-import Image from '../../../public/profile-placeholder.jpg?jsx';
 import { AuthContext } from '../../routes/layout';
 
 export default component$(() => {
@@ -32,7 +31,7 @@ export default component$(() => {
 
 				{auth.loggedin && (
 					<li class={`${styles.nav__img} ${styles.nav__item}`}>
-						{auth.avatar ? <img width="32" height="32" src={auth.avatar} /> : <Image />}
+						<img width="32" height="32" src={auth.avatar || "../../../public/profile-placeholder.jpg"} />
 					</li>
 				)}
 			</ul>

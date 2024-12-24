@@ -8,10 +8,12 @@ export const onGet: RequestHandler = async ({ query, redirect, cookie, url }) =>
 	}
 
 	try {
-		const newurl = `${import.meta.env.PUBLIC_API_URL}/signin?code=${code}`;
+		const newurl = `${import.meta.env.PUBLIC_API_URL}/signin`;
 		const res = await fetch(newurl, {
 			headers: { Accept: 'application/json' },
-			cache: "no-cache"
+			body: JSON.stringify({ oauth_code: code }),
+			cache: "no-cache",
+			method: "POST"
 		});
 
 		if (!res.ok) {

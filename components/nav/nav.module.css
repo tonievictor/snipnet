@@ -3,9 +3,10 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 1rem 5rem;
-	border-bottom: 1px solid black;
 	background-color: var(--bg-dark);
 	z-index: 2;
+	top: 0;
+	position: sticky;
 }
 
 .nav__logo {
@@ -37,6 +38,13 @@
 	padding: 0.5rem 1rem;
 	border-radius: 0.5rem;
 	font-weight: 500;
+}
+
+.createlink {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: .3rem;
 }
 
 .loginlink {

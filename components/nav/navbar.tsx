@@ -1,5 +1,6 @@
 import styles from "./nav.module.css"
 import Link from 'next/link'
+import { IoCreateOutline } from "react-icons/io5";
 import { FaGithub } from "react-icons/fa";
 import Image from 'next/image'
 
@@ -13,12 +14,15 @@ export function Nav() {
 
 			<ul className={styles.nav__list}>
 				<li>
-					<Link href="/">New</Link>
+					<Link href="/" className={styles.createlink}>
+						<span>New</span>
+						<IoCreateOutline />
+					</Link>
 				</li>
 
 				{!loggedin &&
 					<li className={styles.loginbtn}>
-						<Link href="/" className={styles.loginlink}>
+						<Link href="" className={styles.loginlink}>
 							<span>Login</span>
 							<FaGithub />
 						</Link>

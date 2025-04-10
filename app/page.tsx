@@ -12,7 +12,6 @@ export default function Home() {
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 
 		const formData = new FormData(event.currentTarget)
-		console.log(formData)
 	}
 
 	return (

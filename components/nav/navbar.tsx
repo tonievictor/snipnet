@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa";
 import Image from 'next/image'
 
 export function Nav() {
-	const loggedin = false;
+	const loggedin = true;
 	return (
 		<nav className={styles.nav}>
 			<Link href="/" className={styles.nav__logo}>
@@ -14,8 +14,8 @@ export function Nav() {
 
 			<ul className={styles.nav__list}>
 				<li>
-					<Link href="/" className={styles.createlink}>
-						<span>New</span>
+					<Link href="/create" className={styles.createlink}>
+						<span>Create</span>
 						<IoCreateOutline />
 					</Link>
 				</li>
@@ -33,7 +33,7 @@ export function Nav() {
 				{loggedin &&
 					<li>
 						<Image
-							style={{ "border-radius": "50%", "object-fit": "cover", "border": "2px solid var(--light-blue)" }}
+							style={{ "borderRadius": "50%", "objectFit": "cover", "border": "2px solid var(--light-blue)" }}
 							src="/profile.jpg"
 							width={32}
 							height={32}

@@ -1,0 +1,40 @@
+:root {
+	--glob-padding-x: 10rem;
+	--large-pading-y: 3rem;
+	--bg-dark: #1a1a1a;
+	--light-blue: #306BAC;
+}
+
+*,
+*::before,
+*::after {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	scroll-padding: smooth;
+	background-color: var(--bg-dark);
+	color: rgb(245, 245, 244);
+	font-family: "Ubuntu", sans-serif;
+	overflow-x: hidden;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+ul {
+	list-style: none;
+}
+
+button {
+	cursor: pointer;
+}
+
+button:focus {
+	outline: none;
+	cursor: pointer;
+}

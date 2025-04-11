@@ -1,0 +1,71 @@
+.main {
+	width: 100%;
+	max-width: 80%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto;
+	gap: 2rem;
+	height: 100rem;
+	max-height: calc(100vh - 10rem);
+}
+
+.left {
+	flex: 2;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	margin: auto;
+	justify-content: center;
+	padding-top: 1.5rem;
+}
+
+.right {
+	flex: 1;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 1.5rem;
+	padding-top: 1.5rem;
+}
+
+.top,
+.bottom {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+.top label,
+.bottom label {
+	opacity: 0.8;
+	font-size: 0.9rem;
+}
+
+.top input,
+.bottom textarea {
+	background-color: #282c34;
+	border: none;
+	color: white;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+}
+
+.bottom textarea {
+	width: 100%;
+	scrollbar-width: none;
+	overflow: auto;
+	min-width: 100%;
+	max-width: 100%;
+	resize: none
+}
+
+.bottom textarea::-webkit-scrollbar {
+	display: none;
+}
+
+.top input:focus,
+.bottom textarea:focus {
+	outline: none
+}

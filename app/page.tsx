@@ -1,26 +1,16 @@
-"use client"
-
 import Image from "next/image";
-import { formatDate, formatStrToUpperCase, firstNChars } from "../lib/utils"
+import { formatDate, formatStrToUpperCase, firstNChars } from "../lib/utils";
 import { FaStar } from "react-icons/fa";
-import styles from "./index.module.css"
-import { FormEvent } from 'react'
-import { IoSearch } from "react-icons/io5";
-import Link from 'next/link'
+import Search from "./search";
+import styles from "./index.module.css";
+import Link from 'next/link';
 
-export default function Home() {
-	async function onSubmit(event: FormEvent<HTMLFormElement>) {
-
-		const formData = new FormData(event.currentTarget)
-	}
-
+function Home({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+	// the searchParams variable can now be used to get the url parameters, pretty cool
 	return (
 		<main className={styles.main}>
 			<section className={styles.top}>
-				<form>
-					<IoSearch />
-					<input required placeholder="Search for a snippet" type="text" name="param" />
-				</form>
+				<Search />
 			</section>
 			<section className={styles.bottom}>
 				<Link href="" className={styles.content}>
@@ -172,3 +162,5 @@ export default function Home() {
 		</main>
 	);
 }
+
+export default Home;
